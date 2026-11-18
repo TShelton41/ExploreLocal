@@ -1,5 +1,10 @@
-// This is for your firebase service configuration. Please ensure you have the correct Firebase project settings and credentials before proceeding.
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getApp, getApps, initializeApp } from "firebase/app";
+import {
+  getAuth,
+  getReactNativePersistence,
+  initializeAuth,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -12,15 +17,14 @@ const firebaseConfig = {
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
-// let auth;
+let auth;
 
-// try {
-//   auth = initializeAuth(app, {
-//     persistence: getReactNativePersistence(AsyncStorage),
-//   });
-// } catch (error) {
-//     auth = getAuth(app);
-// }
+try {
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage),
+  });
+} catch (error) {
+  auth = getAuth(app);
+}
 
-// export { app, auth };
-export { app };
+export { app, auth };
